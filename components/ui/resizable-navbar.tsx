@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import Image from "next/image"; // Use Next.js Image
 import {
     motion,
     AnimatePresence,
@@ -8,7 +9,7 @@ import {
     useMotionValueEvent,
 } from "motion/react";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 
 interface NavbarProps {
@@ -50,8 +51,16 @@ interface MobileNavMenuProps {
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
+    const [mounted, setMounted] = useState(false);
     const { scrollY } = useScroll();
     const [visible, setVisible] = useState<boolean>(false);
+
+    // Only activate scroll listeners after mounting
+    useEffect(() => {
+        // This is necessary to avoid hydration mismatch with Framer Motion
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMounted(true);
+    }, []);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         if (latest > 100) {
@@ -60,6 +69,8 @@ export const Navbar = ({ children, className }: NavbarProps) => {
             setVisible(false);
         }
     });
+
+    if (!mounted) return <div className={cn("fixed inset-x-0 top-0 z-50 w-full opacity-0", className)}>{children}</div>;
 
     return (
         <motion.div
@@ -185,7 +196,7 @@ export const MobileNavMenu = ({
     children,
     className,
     isOpen,
-    onClose,
+    
 }: MobileNavMenuProps) => {
     return (
         <AnimatePresence>
@@ -226,11 +237,13 @@ export const NavbarLogo = () => {
             href="#"
             className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
         >
-            <img
+            {/* Optimized Image Component */}
+            <Image
                 src="https://assets.aceternity.com/logo-dark.png"
                 alt="logo"
                 width={30}
                 height={30}
+                className="object-contain"
             />
             <span className="font-medium text-black dark:text-white">Startup</span>
         </a>

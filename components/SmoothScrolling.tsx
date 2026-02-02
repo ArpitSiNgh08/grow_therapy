@@ -7,7 +7,6 @@ export default function SmoothScrolling({ children }: { children: ReactNode }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        // We tell ESLint this specific call is intentional for hydration
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
         
@@ -31,7 +30,13 @@ export default function SmoothScrolling({ children }: { children: ReactNode }) {
         };
     }, []);
 
-    // During SSR, mounted is false, returning only children.
-    // In the browser, it rerenders once and activates Lenis.
-    return <>{children}</>;
+    /** * By checking 'mounted' here, we ensure that during the 'next build' 
+     * (server-side), we only output plain HTML. 
+     * The Lenis logic only triggers once the browser takes over.
+     */
+    return (
+        <div style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.5s' }}>
+            {children}
+        </div>
+    );
 }
