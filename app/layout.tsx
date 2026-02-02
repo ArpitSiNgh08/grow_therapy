@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Merriweather_Sans, Lato } from "next/font/google";
 import "./globals.css";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 // 1. Configure the Serif font for Headings
 const tenor = Merriweather_Sans({
@@ -24,7 +25,6 @@ export const metadata: Metadata = {
   description: "Clinical Psychologist in Santa Monica specializing in Anxiety, Trauma & Burnout.",
 };
 
-import SmoothScrolling from "@/components/SmoothScrolling";
 
 export default function RootLayout({
   children,
@@ -39,7 +39,7 @@ export default function RootLayout({
       {/* 3. Apply variables to the body so they are available globally */}
       <body className={`${tenor.variable} ${lato.variable} bg-background-light text-text-main font-sans overflow-x-hidden`}>
         <SmoothScrolling>
-          {children}
+        {children}
         </SmoothScrolling>
       </body>
     </html>
