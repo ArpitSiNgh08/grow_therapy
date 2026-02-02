@@ -18,7 +18,7 @@ export default function EmpathySection() {
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl font-normal leading-relaxed">
-                    Many high-achieving adults feel like they have to hold it all together. Here, you don't have to. We focus on unhooking from the pressure to perform and finding a grounded sense of calm.
+                    Many high-achieving adults feel like they have to hold it all together. Here, you don&apos;t have to. We focus on unhooking from the pressure to perform and finding a grounded sense of calm.
                 </p>
             </div>
         </section>

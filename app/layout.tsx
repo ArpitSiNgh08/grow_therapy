@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather_Sans, Lato } from "next/font/google";
 import "./globals.css";
 import SmoothScrolling from "@/components/SmoothScrolling";
+import 'material-symbols';
 
 // 1. Configure the Serif font for Headings
 const tenor = Merriweather_Sans({
@@ -33,9 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light">
-      <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-      </head>
+      
       {/* 3. Apply variables to the body so they are available globally */}
       <body className={`${tenor.variable} ${lato.variable} bg-background-light text-text-main font-sans overflow-x-hidden`}>
         <SmoothScrolling>

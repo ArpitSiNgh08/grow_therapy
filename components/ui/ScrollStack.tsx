@@ -1,5 +1,5 @@
 "use client"
-import React, { useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import Lenis from 'lenis';
 
@@ -57,7 +57,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     const animationFrameRef = useRef<number | null>(null);
     const lenisRef = useRef<Lenis | null>(null);
     const cardsRef = useRef<HTMLElement[]>([]);
-    const lastTransformsRef = useRef(new Map<number, any>());
+    const lastTransformsRef = useRef(new Map<number, Record<string, number>>());
     const isUpdatingRef = useRef(false);
 
     const calculateProgress = useCallback((scrollTop: number, start: number, end: number) => {
@@ -90,17 +90,17 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         }
     }, [useWindowScroll]);
 
-    const getElementOffset = useCallback(
-        (element: HTMLElement) => {
-            if (useWindowScroll) {
-                const rect = element.getBoundingClientRect();
-                return rect.top + window.scrollY;
-            } else {
-                return element.offsetTop;
-            }
-        },
-        [useWindowScroll]
-    );
+    // const getElementOffset = useCallback(
+    //     (element: HTMLElement) => {
+    //         if (useWindowScroll) {
+    //             const rect = element.getBoundingClientRect();
+    //             return rect.top + window.scrollY;
+    //         } else {
+    //             return element.offsetTop;
+    //         }
+    //     },
+    //     [useWindowScroll]
+    // );
 
     const updateCardTransforms = useCallback(() => {
         if (!cardsRef.current.length || isUpdatingRef.current) return;
@@ -111,9 +111,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         const stackPositionPx = parsePercentage(stackPosition, containerHeight);
         const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-        const endElement = useWindowScroll
-            ? (document.querySelector('.scroll-stack-end') as HTMLElement | null)
-            : (scrollerRef.current?.querySelector('.scroll-stack-end') as HTMLElement | null);
+        // const endElement = useWindowScroll
+        //     ? (document.querySelector('.scroll-stack-end') as HTMLElement | null)
+        //     : (scrollerRef.current?.querySelector('.scroll-stack-end') as HTMLElement | null);
 
         // Calculate when the stack is fully complete
         const lastCardTop = initialTopsRef.current[initialTopsRef.current.length - 1] || 0;
@@ -209,7 +209,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         baseScale,
         rotationAmount,
         blurAmount,
-        useWindowScroll,
         onStackComplete,
         calculateProgress,
         parsePercentage,
@@ -256,7 +255,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         }
     }, [handleScroll, useWindowScroll]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!useWindowScroll && !scrollerRef.current) return;
 
         // Helper to get static offset once on mount
@@ -323,6 +322,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         useWindowScroll,
         onStackComplete,
         setupLenis,
+        handleScroll,
         updateCardTransforms
     ]);
 

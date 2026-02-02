@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+
 import {
     Navbar,
     NavBody,
@@ -11,7 +12,6 @@ import {
     MobileNavMenu,
     MobileNavToggle,
 } from "./ui/resizable-navbar";
-import { cn } from "@/lib/utils";
 
 const items = [
     { name: "About", link: "#about" },
